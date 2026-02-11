@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <div class="layout">
+
+        <div class="sidebar">
+            <h2 class="logo">ETMS</h2>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/create_task">Create Task</a></li>
+                <li><a href="/tasks">View Tasks</a></li>
+                <li><a href="/logs" class="active">Logs</a></li>
+                <li><a href="/admin">Admin Panel</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/logout" class="logout">Logout</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="topbar">
+                <h1>Activity Logs</h1>
+            </div>
+
+            <div class="content">
+                <table border="1">
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Target</th>
+                        <th>Target ID</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log[0] }}</td>
+                        <td>{{ log[1] }}</td>
+                        <td>{{ log[2] }}</td>
+                        <td>{{ log[3] }}</td>
+                        <td>{{ log[4] }}</td>
+                        <td>{{ log[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table><br>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

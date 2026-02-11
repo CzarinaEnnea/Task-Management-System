@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ETMS</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const passwordError = document.getElementById('passwordError');
+
+            // Check if password meets the rules
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                e.preventDefault(); // Prevent form submission
+                passwordError.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.";
+            } else {
+                passwordError.textContent = ''; // Clear error message
+            }
+        });        
+    </script> -->
+
+    <a href="/" class="top-link">Home</a><br>
+    
+    <div class="container">
+        <h1>Register</h1>
+
+        <form method="POST">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" id="password" required>
+            <!-- <input type="password" name="password" id="password" required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
+            title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long."> -->
+
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="user">User</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+            </select>
+            
+            <input type="submit" value="Register">
+        </form>
+
+        <div class="form-footer">
+            <a href="/login">Already have an account? Login</a>
+        </div>
+
+        <div id="passwordError" style="color: red;"></div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
