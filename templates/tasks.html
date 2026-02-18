@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+
+<body>
+    <div class="layout">
+
+        <div class="sidebar">
+            <h2 class="logo">ETMS</h2>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/create_task">Create Task</a></li>
+                <li><a href="/tasks" class="active">View Tasks</a></li>
+                <li><a href="/logs">Logs</a></li>
+                <li><a href="/admin">Admin Panel</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="/logout" class="logout">Logout</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="topbar">
+                <h1>Tasks</h1>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="content">
+
+                <table border="1">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Assigned To</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task[1] }}</td>
+                        <td>{{ task[2] }}</td>
+                        <td>{{ task[3] }}</td>
+                        <td>{{ task[4] }}</td>
+                        <td>{{ task[5] }}</td>
+                        <td>
+                            <button class="update-btn" onclick="openUpdateModal('{{ task[0] }}', '{{ task[3] }}')">Update</button><br>
+                            <button class="delete-btn" onclick="openModal('{{ task[0] }}', '{{ task[1] }}')">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table><br>
+
+                <div id="deleteModal">
+                    <div class="modal-content">
+                        <h3>Are you sure?</h3>
+                        <p id="taskTitle"></p>
+                        <form id="deleteForm" method="POST">
+                            <button type="submit" class="yes-btn">Yes</button>
+                            <button type="button" class="no-btn" onclick="closeModal()">No</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="updateModal">
+                    <div class="modal-content update-modal-content">
+                        <h3>Update Task Status</h3>
+                        <form id="updateForm" method="POST">
+                            <label>Status:</label>
+                            <select name="status" id="statusSelect">
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                            <div class="modal-buttons">
+                                <button type="submit" class="update-btn">Update</button>
+                                <button type="button" class="delete-btn" onclick="closeUpdateModal()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="pagination">
+                    {% if page > 1 %}
+                        <a href="?page=1" class="page-btn">&laquo;</a>
+                        <a href="?page={{ page - 1 }}" class="page-btn">&lt;</a>
+                    {% endif %}
+
+                    {% for p in range(1, total_pages + 1) %}
+                        {% if p == page %}
+                            <span class="page-number active">{{ p }}</span>
+                        {% elif p >= page - 2 and p <= page + 2 %}
+                            <a href="?page={{ p }}" class="page-number">{{ p }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page < total_pages %}
+                        <a href="?page={{ page + 1 }}" class="page-btn">&gt;</a>
+                        <a href="?page={{ total_pages }}" class="page-btn">&raquo;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openModal(taskId, title) {
+            document.getElementById("deleteModal").style.display = "block";
+            document.getElementById("taskTitle").innerText = "Delete: " + title + "?";
+            document.getElementById("deleteForm").action = "/delete_task/" + taskId;
+        }
+
+        function closeModal() {
+            document.getElementById("deleteModal").style.display = "none";
+        }
+
+        function openUpdateModal(taskId, currentStatus) {
+            document.getElementById("updateModal").style.display = "block";
+
+            // Set form action dynamically
+            document.getElementById("updateForm").action = "/update_task/" + taskId;
+
+            // Preselect current status
+            document.getElementById("statusSelect").value = currentStatus;
+        }
+
+        function closeUpdateModal() {
+            document.getElementById("updateModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>

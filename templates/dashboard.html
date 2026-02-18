@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - ETMS</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <div class="sidebar">
+        <h2 class="logo">ETMS</h2>
+
+        <ul class="nav-links">
+            <li><a href="/dashboard" class="active">Dashboard</a></li>
+            <li><a href="/create_task">Create Task</a></li>
+            <li><a href="/tasks">View Tasks</a></li>
+            <li><a href="/logs">Logs</a></li>
+            <li><a href="/admin">Admin Panel</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <h1>Welcome {{session.username}}</h1>
+            <p>Role: {{session.role}}</p>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <h3>Quick Info</h3>
+                <p>This is your dashboard overview.</p>
+            </div>
+
+            <div class="card">
+                <h3>System Status</h3>
+                <p>All systems running normally.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

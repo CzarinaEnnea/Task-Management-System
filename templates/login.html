@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ETMS</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <a href="/" class="top-link">Back</a>
+    
+    <div class="container">
+        <h1>Login</h1>
+
+        <form method="POST">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="checkbox" id="show-password"> Show Password <br><br>
+            <input type="submit" value="Login">
+        </form>
+        <div class="form-footer">
+            <a href="/register">No account? Register</a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script> -->
+    <script src="/static/main.js"></script>
+</body>
+</html>
